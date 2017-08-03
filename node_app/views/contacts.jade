@@ -1,0 +1,18 @@
+extends layout
+
+block content
+	h1= title
+	form(name="contact-update", method="post")
+		div.input#names
+			span.label Person Name:
+			input(name="name", type="text", class="typeahead", placeholder="Enter Name")
+			br
+			span.label Last communicated date:
+			input(name="date", type="date", id="date")
+		div.actions
+			input(type="submit", value="Submit")
+	script(src='http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js')
+	script(type='text/javascript').                                                   
+		var full_names = !{JSON.stringify(contacts)}
+	script(src='/scripts/typeahead_names.js')
+		
