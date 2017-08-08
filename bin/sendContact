@@ -33,7 +33,7 @@ base('Contacts').select({
 		    	console.error(err); 
 		    	return; 
 			} else {
-				sendgrid.send({
+				sg.send({
 				    to: 'anirudh.c.mohan@gmail.com',
 				    from: 'app@email.com',
 				    subject: 'Folks to follow up with',
