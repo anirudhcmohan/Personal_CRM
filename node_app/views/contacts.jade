@@ -5,14 +5,31 @@ block content
 	form(name="contact-update", method="post")
 		div.input#names
 			span.label Person Name:
-			input(name="name", type="text", class="typeahead", placeholder="Enter Name")
+			input(name="name", type="text", id="name-typeahead", placeholder="Enter Name")
 			br
 			span.label Last communicated date:
 			input(name="date", type="date", id="date")
+			br
+			span.label Closeness:
+			select(name="closeness")
+				each closenessval in closenessVals
+					option(value=!{closenessval}) #{closenessval}
+			br
+			span.label Company:
+			input(name="company", type="text", id="company-typeahead")
+			br
+			span.label City:
+			input(name="city", type="text", id="city-typeahead")
+			br
+			span.label Life Domain:
+			select(name="life-domain")
+				each lifeDomain in life_domains
+					option(value=!{lifeDomain}) #{lifeDomain}
 		div.actions
 			input(type="submit", value="Submit")
 	script(src='http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js')
 	script(type='text/javascript').                                                   
 		var full_names = !{JSON.stringify(contacts)}
-	script(src='/scripts/typeahead_names.js')
-		
+		var companies = !{JSON.stringify(companies)}
+		var cities = !{JSON.stringify(cities)}
+	script(src='/scripts/typeahead_script.js')

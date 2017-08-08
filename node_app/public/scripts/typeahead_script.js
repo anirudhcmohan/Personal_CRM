@@ -28,14 +28,31 @@ $(document).ready(function() {
     };
   };
 
-  $('.typeahead').typeahead({
+  $('#name-typeahead').typeahead({
     hint: true,
     highlight: true,
     minLength: 1
   },
   {
-    name: 'states',
     source: substringMatcher(full_names)
+  });
+
+  $('#company-typeahead').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+  },
+  {
+    source: substringMatcher(companies)
+  });
+
+  $('#city-typeahead').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+  },
+  {
+    source: substringMatcher(cities)
   });
 
   $('#date').val(new Date().toDateInputValue());
