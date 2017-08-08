@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 var sg  = require('sendgrid')(
-  process.env.SENDGRID_USERNAME,
-  process.env.SENDGRID_PASSWORD
+	process.env.SENDGRID_API_KEY
 );
 
 var Airtable = require('airtable');
@@ -33,15 +32,41 @@ base('Contacts').select({
 		    	console.error(err); 
 		    	return; 
 			} else {
-				sg.send({
-				    to: 'anirudh.c.mohan@gmail.com',
-				    from: 'app@email.com',
-				    subject: 'Folks to follow up with',
-				    text: sendString
-				  }, function(err, json) {
-				    if (err) { 
-				      console.error(err); 
-				    }   
+
+
+				var request = sg.emptyRequest({
+				  method: 'POST',
+				  path: '/v3/mail/send',
+				  body: {
+				    personalizations: [
+				      {
+				        to: [
+				          {
+				            email: 'anirudh.c.mohan@gmail.com',
+				          },
+				        ],
+				        subject: 'Folks to follow up with',
+				      },
+				    ],
+				    from: {
+				      email: 'test@example.com',
+				    },
+				    content: [
+				      {
+				        type: 'text/plain',
+				        value: sendString
+				      },
+				    ],
+				  },
+				});
+
+				sg.API(request, function(error, response) {
+				  if (error) {
+				    console.log('Error response received');
+				  }
+				  console.log(response.statusCode);
+				  console.log(response.body);
+				  console.log(response.headers);
 				});
 		} 
 });
