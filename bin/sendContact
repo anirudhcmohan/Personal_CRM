@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-var sg  = require('sendgrid')(
-	process.env.SENDGRID_API_KEY
-);
+var sg  = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 var Airtable = require('airtable');
 var base = new Airtable({apiKey: 'key6ENmDOrXqkC5Fu'}).base('appRsi6hgpkmwzLBg');
@@ -22,7 +20,7 @@ base('Contacts').select({
 		    // To fetch the next page of records, call `fetchNextPage`.
 		    // If there are more records, `page` will get called again.
 		    // If there are no more records, `done` will get called.
-		    sendString = folksToContact.toString()
+		    sendString = folksToContact.join(', ')
 
 
 		    fetchNextPage();
