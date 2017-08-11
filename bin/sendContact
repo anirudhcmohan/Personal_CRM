@@ -5,8 +5,14 @@ var sg  = require('sendgrid')(process.env.SENDGRID_API_KEY);
 var Airtable = require('airtable');
 var base = new Airtable({apiKey: 'key6ENmDOrXqkC5Fu'}).base('appRsi6hgpkmwzLBg');
 
-var folksToContact = [];
-var sendString = "";
+var folksToContact = {};
+var sendString = "Random folks to get in touch with: \n";
+var fullPeopleList = "";
+
+function choose(choices) {
+  var index = Math.floor(Math.random() * choices.length);
+  return choices[index];
+}
 
 base('Contacts').select({
 		    view: "Catch up due"
@@ -14,14 +20,21 @@ base('Contacts').select({
 		    // This function (`page`) will get called for each page of records.
 
 		    records.forEach(function(record) {
-		        folksToContact.push(record.get('Name'));
+		    	var lifeDomain = record.get('Life domain');
+		    	if (folksToContact[lifeDomain] === undefined){
+		    		folksToContact[lifeDomain] = [record.get('Name')];
+		    	}
+		    	else {
+		    		folksToContact[lifeDomain].push(record.get('Name'));
+		    	}
 		    });
 
-		    // To fetch the next page of records, call `fetchNextPage`.
-		    // If there are more records, `page` will get called again.
-		    // If there are no more records, `done` will get called.
-		    sendString = folksToContact.join(', ')
+		    for (var category in folksToContact){
+		    	sendString += category + ": " + choose(folksToContact[category]) + "\n";
+		    	fullPeopleList += category + ": " + folksToContact[category].join(", ") + "\n";
+		    };
 
+		    sendString += "\nFull list of people to get in touch with: \n" + fullPeopleList;
 
 		    fetchNextPage();
 
@@ -43,11 +56,11 @@ base('Contacts').select({
 				            email: 'anirudh.c.mohan@gmail.com',
 				          },
 				        ],
-				        subject: 'Folks to follow up with',
+				        subject: '[Personal CRM] Recommended people to follow up with today:',
 				      },
 				    ],
 				    from: {
-				      email: 'test@example.com',
+				      email: 'personal-crm-bot@personal-crm.com',
 				    },
 				    content: [
 				      {
