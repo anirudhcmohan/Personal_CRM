@@ -6,7 +6,7 @@ var Airtable = require('airtable');
 var base = new Airtable({apiKey: 'key6ENmDOrXqkC5Fu'}).base('appRsi6hgpkmwzLBg');
 
 var folksToContact = {};
-var sendString = "Random folks to get in touch with: \n";
+var sendString = "Random folks to get in touch with: \n\n";
 var fullPeopleList = "";
 
 function choose(choices) {
@@ -30,11 +30,11 @@ base('Contacts').select({
 		    });
 
 		    for (var category in folksToContact){
-		    	sendString += category + ": " + choose(folksToContact[category]) + "\n";
-		    	fullPeopleList += category + ": " + folksToContact[category].join(", ") + "\n";
+		    	sendString += category + ": " + choose(folksToContact[category]) + "\n\n";
+		    	fullPeopleList += category + ": " + folksToContact[category].join(", ") + "\n\n";
 		    };
 
-		    sendString += "\nFull list of people to get in touch with: \n" + fullPeopleList;
+		    sendString += "\n\nFull list of people to get in touch with: \n\n" + fullPeopleList;
 
 		    fetchNextPage();
 
@@ -56,7 +56,7 @@ base('Contacts').select({
 				            email: 'anirudh.c.mohan@gmail.com',
 				          },
 				        ],
-				        subject: '[Personal CRM] Recommended people to follow up with today:',
+				        subject: '[Personal CRM] Recommended people to follow up with today',
 				      },
 				    ],
 				    from: {
